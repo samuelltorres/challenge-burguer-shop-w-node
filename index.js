@@ -44,7 +44,7 @@ server.delete('/order/:id', (request, response) => {
         return response.status(404).json({error: "Order not found"})
     }
     orders.splice(index, 1)
-    return response.status(204).body({message: "Order successfully deleted"})
+    return response.status(204).json()
 })
 
 server.get('/order/:id', (request, response) => {
