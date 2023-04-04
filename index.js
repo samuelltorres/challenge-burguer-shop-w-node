@@ -27,8 +27,9 @@ server.get("/order", checkMethodAndUrl, (request, response) => {
 });
 
 server.post("/order", checkMethodAndUrl, (request, response) => {
+  try{
   const { order, clientName, price } = request.body;
-
+  if(price < 30) throw new Error("Only allowed orders overpriced 30")
   const demand = {
     id: uuid.v4(),
     order,
@@ -40,6 +41,9 @@ server.post("/order", checkMethodAndUrl, (request, response) => {
   orders.push(demand);
 
   return response.status(201).json(demand);
+  } catch(err){
+    return response.status(400).json({error: err.message});
+  }
 });
 
 server.put("/order/:id", checkId, checkMethodAndUrl, (request, response) => {
